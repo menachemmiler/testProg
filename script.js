@@ -72,8 +72,15 @@ const soldierDiv = (SoldierObg) => {
     const editBtn = document.createElement("div"); 
     tableCube6.append(removeBtn, missionBtn, editBtn);
     removeBtn.className = "greenBtn";
+    removeBtn.addEventListener("click", (e) => {
+        remove(SoldierObg);
+        fillingTableData();
+    })
     missionBtn.className = "greenBtn";
     editBtn.className = "greenBtn";
+    editBtn.addEventListener("click", (e) => {
+        editSoldier(SoldierObg);
+    })
     removeBtn.textContent = "remove";
     missionBtn.textContent = "mossion";
     editBtn.textContent = "edit";
@@ -104,7 +111,7 @@ fillingTableData();
 
 
 const appendSoldier = () => {
-    const FullName = inputPlatoon.value;
+    const FullName = inputFullName.value;
     const Platoon = inputPlatoon.value;
     const Position = inputPosition.value;
     const Rank = inputRank.value;
@@ -115,6 +122,11 @@ const appendSoldier = () => {
         localStorage.setItem("allSoldiers", JSON.stringify(allSoldiers));
         console.log(allSoldiers);
         fillingTableData();
+        inputFullName.value = "";
+        inputPlatoon.value = "";
+        inputPosition.value = "";
+        inputRank.value = "";
+        selectAction.value = "active";
     }else{
         alert("לא מילאת את כל הנתונים")
     }
@@ -129,4 +141,17 @@ btnAdd.addEventListener("click", (e) => {
 
 
 
+const remove = (SoldierObg) => {
+    const name = SoldierObg.fullName;
+    // const tryLoad = localStorage.getItem("allSoldiers");
+    // const newArr = tryLoad ? JSON.parse(tryLoad) : [];
+    const arrToSave = allSoldiers.filter((a) => (a.fullName != name)); 
+    localStorage.setItem("allSoldiers", JSON.stringify(arrToSave));
+}
+
+
+const editSoldier = (SoldierObg) => {
+    managementPage.style.display = "none";
+    editPage.style.display = "flex";
+}
 
