@@ -153,5 +153,10 @@ const remove = (SoldierObg) => {
 const editSoldier = (SoldierObg) => {
     managementPage.style.display = "none";
     editPage.style.display = "flex";
+    inputFullName.value = SoldierObg.fullName;
+    inputPlatoon.value = SoldierObg.Platoon;
+    inputPosition.value = SoldierObg.position;
+    inputRank.value = SoldierObg.rank;
+    selectAction.value = SoldierObg.Status;
 }
 

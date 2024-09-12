@@ -164,7 +164,6 @@ select{
 
 
 .edit{
-    display: flex;
     flex-direction: column;
     background-color: #2C3E50;
     width: 100%;
