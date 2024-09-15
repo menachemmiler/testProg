@@ -100,7 +100,7 @@ const fillingTableData = () => {
     let try_get = localStorage.getItem("allSoldiers");
     if (try_get) {
         allSoldiers = JSON.parse(try_get);
-        console.log(allSoldiers);
+        // console.log(allSoldiers);
     } else {
         allSoldiers = [];
     }
@@ -159,14 +159,14 @@ const remove = (SoldierObg) => {
 
 
 
-const editSoldier = (SoldierObg) => {
+const editSoldier = (SoldierOld) => {
     managementPage.style.display = "none";
     editPage.style.display = "flex";
-    UpdateFullName.value = SoldierObg.fullName;
-    UpdatePlatoon.value = SoldierObg.platoon;
-    UpdatePosition.value = SoldierObg.position;
-    UpdateRank.value = SoldierObg.rank;
-    UpdateSelectAction.value = SoldierObg.status;
+    UpdateFullName.value = SoldierOld.fullName;
+    UpdatePlatoon.value = SoldierOld.platoon;
+    UpdatePosition.value = SoldierOld.position;
+    UpdateRank.value = SoldierOld.rank;
+    UpdateSelectAction.value = SoldierOld.status;
 
     const btnSave = document.querySelector("#btnSave");
     btnSave.addEventListener("click", () => {
@@ -176,12 +176,13 @@ const editSoldier = (SoldierObg) => {
         const Rank = UpdateRank.value;
         const Status = UpdateSelectAction.value;
         if(FullName != "" && Platoon != "" && Position != "" && Rank != ""){
-            const newS = new SoldierObg(FullName, Rank, Position, Platoon, Status);
-            const arrToSave = allSoldiers.filter((a) => (a.fullName != SoldierObg.FullName));
-            // arrToSave.push(newS);
+            const newS = new SoldierObg(FullName, Rank, Position, Platoon, Status)
+            const arrToSave = allSoldiers.filter((a) => (a.fullName != SoldierOld.fullName));
+            arrToSave.push(newS);
             allSoldiers = arrToSave;
             localStorage.setItem("allSoldiers", JSON.stringify(arrToSave));
-
+            window.location.reload();
+            alert(FullName)
         }else{
             alert("לא מילאת את כל הנתונים")
         }
