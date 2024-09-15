@@ -15,6 +15,12 @@ const inputPosition = document.querySelector("#inputPosition");
 const inputPlatoon = document.querySelector("#inputPlatoon");
 const btnAdd = document.querySelector("#btnAdd");
 
+const UpdateSelectAction = document.querySelector("#UpdateSelectAction");
+const UpdateFullName = document.querySelector("#UpdateFullName");
+const UpdateRank = document.querySelector("#UpdateRank");
+const UpdatePosition = document.querySelector("#UpdatePosition");
+const UpdatePlatoon = document.querySelector("#UpdatePlatoon");
+
 // btmToManagement.addEventListener("click", (e) => {
 //     editPage.style.display = "none";
 //     managementPage.style.display = "flex";
@@ -29,7 +35,7 @@ const btnAdd = document.querySelector("#btnAdd");
 
 
 
-function SoldierObg(fullName, rank, position, platoon, status = "active"){
+function SoldierObg(fullName, rank, position, platoon, status = "active") {
     this.fullName = fullName;//
     this.rank = rank;//דרגא
     this.position = position;//תפקיד
@@ -69,7 +75,7 @@ const soldierDiv = (SoldierObg) => {
     tableCube5.textContent = SoldierObg.status;
     const removeBtn = document.createElement("div");
     const missionBtn = document.createElement("div");
-    const editBtn = document.createElement("div"); 
+    const editBtn = document.createElement("div");
     tableCube6.append(removeBtn, missionBtn, editBtn);
     removeBtn.className = "greenBtn";
     removeBtn.addEventListener("click", (e) => {
@@ -92,16 +98,16 @@ let allSoldiers = [];
 
 const fillingTableData = () => {
     let try_get = localStorage.getItem("allSoldiers");
-    if(try_get){
+    if (try_get) {
         allSoldiers = JSON.parse(try_get);
         console.log(allSoldiers);
-    }else{
+    } else {
         allSoldiers = [];
     }
     tableData.textContent = "";
-    for(let i of  allSoldiers){
+    for (let i of allSoldiers) {
         tableData.appendChild(soldierDiv(i));
-    } 
+    }
 }
 
 
@@ -116,7 +122,7 @@ const appendSoldier = () => {
     const Position = inputPosition.value;
     const Rank = inputRank.value;
     const Status = selectAction.value;
-    if(FullName != "" && Platoon != "" && Position != "" && Rank != ""){
+    if (FullName != "" && Platoon != "" && Position != "" && Rank != "") {
         const newS = new SoldierObg(FullName, Rank, Position, Platoon, Status);
         allSoldiers.push(newS);
         localStorage.setItem("allSoldiers", JSON.stringify(allSoldiers));
@@ -127,7 +133,7 @@ const appendSoldier = () => {
         inputPosition.value = "";
         inputRank.value = "";
         selectAction.value = "active";
-    }else{
+    } else {
         alert("לא מילאת את כל הנתונים")
     }
 }
@@ -145,18 +151,43 @@ const remove = (SoldierObg) => {
     const name = SoldierObg.fullName;
     // const tryLoad = localStorage.getItem("allSoldiers");
     // const newArr = tryLoad ? JSON.parse(tryLoad) : [];
-    const arrToSave = allSoldiers.filter((a) => (a.fullName != name)); 
+    const arrToSave = allSoldiers.filter((a) => (a.fullName != name));
     localStorage.setItem("allSoldiers", JSON.stringify(arrToSave));
+    allSoldiers = arrToSave;
 }
+
+
 
 
 const editSoldier = (SoldierObg) => {
     managementPage.style.display = "none";
     editPage.style.display = "flex";
-    inputFullName.value = SoldierObg.fullName;
-    inputPlatoon.value = SoldierObg.Platoon;
-    inputPosition.value = SoldierObg.position;
-    inputRank.value = SoldierObg.rank;
-    selectAction.value = SoldierObg.Status;
+    UpdateFullName.value = SoldierObg.fullName;
+    UpdatePlatoon.value = SoldierObg.platoon;
+    UpdatePosition.value = SoldierObg.position;
+    UpdateRank.value = SoldierObg.rank;
+    UpdateSelectAction.value = SoldierObg.status;
+
+    const btnSave = document.querySelector("#btnSave");
+    btnSave.addEventListener("click", () => {
+        const FullName = UpdateFullName.value;
+        const Platoon = UpdatePlatoon.value;
+        const Position = UpdatePosition.value;
+        const Rank = UpdateRank.value;
+        const Status = UpdateSelectAction.value;
+        if(FullName != "" && Platoon != "" && Position != "" && Rank != ""){
+            const newS = new SoldierObg(FullName, Rank, Position, Platoon, Status);
+            const arrToSave = allSoldiers.filter((a) => (a.fullName != SoldierObg.FullName));
+            // arrToSave.push(newS);
+            allSoldiers = arrToSave;
+            localStorage.setItem("allSoldiers", JSON.stringify(arrToSave));
+
+        }else{
+            alert("לא מילאת את כל הנתונים")
+        }
+    })
 }
+
+
+
 
