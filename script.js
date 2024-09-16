@@ -20,6 +20,7 @@ const UpdateFullName = document.querySelector("#UpdateFullName");
 const UpdateRank = document.querySelector("#UpdateRank");
 const UpdatePosition = document.querySelector("#UpdatePosition");
 const UpdatePlatoon = document.querySelector("#UpdatePlatoon");
+const sortFullName = document.querySelector("#sortFullName");
 
 // btmToManagement.addEventListener("click", (e) => {
 //     editPage.style.display = "none";
@@ -95,6 +96,10 @@ const soldierDiv = (SoldierObg) => {
 }
 
 let allSoldiers = [];
+let currentSort = "up";
+
+
+
 
 const fillingTableData = () => {
     let try_get = localStorage.getItem("allSoldiers");
@@ -105,10 +110,11 @@ const fillingTableData = () => {
         allSoldiers = [];
     }
     tableData.textContent = "";
+    allSoldiers.sort((a, b) => {return a.fullName >= b.fullName ? 1 : -1}, 0);
     for (let i of allSoldiers) {
         tableData.appendChild(soldierDiv(i));
     }
-}
+};
 
 
 
@@ -182,12 +188,29 @@ const editSoldier = (SoldierOld) => {
             allSoldiers = arrToSave;
             localStorage.setItem("allSoldiers", JSON.stringify(arrToSave));
             window.location.reload();
-            alert(FullName)
         }else{
             alert("לא מילאת את כל הנתונים")
         }
     })
-}
+};
+
+sortFullName.addEventListener("click", () => {
+    if (currentSort == "up") {
+        allSoldiers.sort((a, b) => {return a.fullName >= b.fullName ? 1 : -1}, 0);
+        currentSort = "down";
+        sortFullName.textContent = sortFullName.textContent.replace("⬆️", "⬇️");
+    } else {
+        allSoldiers.sort((a, b) => {return a.fullName <= b.fullName ? 1 : -1}, 0);
+        currentSort = "up";
+        sortFullName.textContent = sortFullName.textContent.replace("⬇️", "⬆️");
+    }
+    tableData.textContent = "";
+    for (let i of allSoldiers) {
+        tableData.appendChild(soldierDiv(i));
+    }
+});
+
+
 
 
 
